@@ -1,0 +1,9 @@
+# Local tooling / editor noise
+.DS_Store
+Thumbs.db
+*.log
+
+# SQLcl / local connection artifacts — never commit credentials
+login.sql
+*.wallet
+tnsnames.ora
