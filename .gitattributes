@@ -1,0 +1,5 @@
+# Normalise line endings so the repo is consistent across OSes.
+* text=auto eol=lf
+*.sh text eol=lf
+# Preserve Oracle's own formatting in exported APEX files.
+*.apx -text

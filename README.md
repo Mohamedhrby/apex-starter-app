@@ -1,5 +1,7 @@
 # APEX starter app (APEXLang)
 
+![License: MIT](https://img.shields.io/badge/License-MIT-informational) [![harby.dev](https://img.shields.io/badge/harby.dev-templates-C74634)](https://harby.dev/templates) ![Oracle APEX](https://img.shields.io/badge/Oracle-APEX%2026.1-F80000?logo=oracle&logoColor=white)
+
 A minimal, opinionated **Git layout for a file-based Oracle APEX app** — the kind
 an AI agent (Claude, Cursor) can read and edit safely, then sync back to APEX.
 Companion to [Vibe-code APEX with Claude + APEXLang](https://harby.dev/learn/vibe-code-apex-apexlang-claude) on harby.dev.
