@@ -1,34 +1,44 @@
 # app/
 
-Put your file-based APEX application here — one subfolder per app.
+Put your file-based (APEXlang) APEX application here — one folder per app.
 
-Generate it from SQLcl, connected to your APEX workspace schema:
+Requires **APEX 26.1+** and **SQLcl 26.1.2+**. Generate it from SQLcl, connected
+as the app's parsing schema:
 
 ```sql
 -- 100 = your application id
-apex export -applicationid 100 -split -dir ./app/app100
+apex export -applicationid 100 -exptype APEXLANG -skipexportdate -dir app -force
 ```
 
-That produces a tree like:
+`-skipexportdate` keeps diffs clean; `-force` replaces the previous export.
+SQLcl names the folder after the application alias, in lower case
+(alias `MY-APP` → `app/my-app/`):
 
 ```
-app100/
-├── install.sql                      # imports the whole application
-├── application/
-│   ├── create_application.sql
-│   ├── set_environment.sql
-│   ├── shared_components/           # navigation, auth, LOVs, templates…
-│   └── pages/
-│       ├── page_00001.sql           # Home
-│       └── page_00101.sql           # Login
-└── ...
+my-app/
+├── application.apx                  # application definition
+├── page-groups.apx
+├── pages/
+│   ├── p00000-global-page.apx
+│   ├── p00001-home.apx
+│   └── p09999-login.apx
+├── shared-components/               # navigation, auth, LOVs, themes…
+├── supporting-objects/
+└── deployments/
+    └── default.json                 # app id (and optionally workspace / parsing schema)
 ```
 
-Commit the split export so each change is a reviewable diff. Import it back with:
+Commit the export so each change is a reviewable diff. Check it, then import it
+back:
 
 ```sql
-apex import -dir ./app/app100 -applicationid 100
+-- offline, no connection needed
+apex validate -input app/my-app
+
+-- connected as the parsing schema
+apex import -input app/my-app -id 100
 ```
 
-> Keep component IDs stable across edits — it keeps import/sync clean and avoids
-> duplicate components.
+> SQLcl exits with code 0 even when validation or import fails. Look for
+> `Validation successful.` / `Import successful.` in the output, and check for
+> them explicitly in any script or CI job.
